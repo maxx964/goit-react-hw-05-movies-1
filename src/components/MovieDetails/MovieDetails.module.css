@@ -1,0 +1,19 @@
+.movieDetails {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.movieDetails h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.movieDetails p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+

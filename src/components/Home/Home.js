@@ -1,43 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import styles from './Home.module.css';
+import React, { useEffect, useState } from 'react';
 
-function Home() {
-  const [popularMovies, setPopularMovies] = useState([]);
+import styles from './Home.module.css';
+import { Link } from 'react-router-dom';
+
+const Home = () => {
+  const [trendingMovies, setTrendingMovies] = useState([]);
 
   useEffect(() => {
-    async function fetchPopularMovies() {
+    const fetchTrendingMovies = async () => {
       try {
         const response = await fetch(
-          'https://api.themoviedb.org/3/trending/movie/week?api_key=ТВІЙ_API_КЛЮЧ'
+          'https://api.themoviedb.org/3/trending/movie/week?api_key=9a4b9e4760b7564e10a80d0c72f50665'
         );
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw  Error('Network response was not ok');
         }
         const data = await response.json();
-        setPopularMovies(data.results);
+        setTrendingMovies(data.results);
       } catch (error) {
-        console.error('Error fetching popular movies:', error);
+        console.error('Error fetching trending movies:', error);
       }
-    }
+    };
 
-    fetchPopularMovies();
+    fetchTrendingMovies();
   }, []);
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Популярні фільми</h1>
-      <ul className={styles.list}>
-        {popularMovies.map((movie) => (
-          <li key={movie.id} className={styles.item}>
-            <Link to={`/movies/${movie.id}`} className={styles.link}>
-              {movie.title}
-            </Link>
+      <div className={styles.home}>
+      <h1>Home</h1>
+      <h2>Trending today</h2>
+      <ul className={styles.movieList}>
+        {trendingMovies.map((movie) => (
+          <li key={movie.id} className={styles.movieItem}>
+            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
           </li>
         ))}
       </ul>
     </div>
   );
-}
+};
 
 export default Home;

@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-import styles from './Movies.module.css'; 
+import styles from './Movies.module.css';
 
 class Movies extends Component {
   state = {
-    movies: [], 
     query: '', 
   };
 
-  componentDidMount() {
-
-    this.loadTrendingMovies();
-  }
-
-  loadTrendingMovies = async () => {
-  
-  };
-
-    searchMovies = async () => {
-      
+  searchMovies = async () => {
+    const { query } = this.state;
+    try {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/search/movie?api_key=9a4b9e4760b7564e10a80d0c72f50665&query=${query}`
+      );
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      this.setState({ movies: data.results });
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    }
   };
 
   handleSearchChange = (e) => {
@@ -39,18 +41,9 @@ class Movies extends Component {
           />
           <button onClick={this.searchMovies}>Search</button>
         </div>
-        <ul className={styles.movieList}>
-          {this.state.movies.map((movie) => (
-            <li key={movie.id}>{movie.title}</li>
-          ))}
-        </ul>
       </div>
     );
   }
 }
-
-Movies.propTypes = {
- 
-};
 
 export default Movies;
